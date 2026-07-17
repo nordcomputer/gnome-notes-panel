@@ -1,0 +1,10 @@
+{
+    "uuid": "gnome-notes-panel@nordcomputer",
+    "name": "Gnome Notes Panel",
+    "description": "Access GNOME Notes from the top panel",
+    "version": 1,
+    "shell-version": [
+        "48"
+    ],
+    "gettext-domain": "gnome-notes-panel@nordcomputer"
+}
