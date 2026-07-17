@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gnome Notes Panel 1.0\n"
 "Report-Msgid-Bugs-To: notes-extension@nordcomputer.de\n"
-"POT-Creation-Date: 2026-07-17 15:25+0200\n"
+"POT-Creation-Date: 2026-07-17 15:50+0200\n"
 "PO-Revision-Date: 2026-07-17 15:25+0200\n"
 "Last-Translator: Mario Maresch\n"
 "Language-Team: German\n"
@@ -21,7 +21,8 @@ msgstr ""
 #: extension.js:81 extension.js:364 extension.js:383 extension.js:461
 #: extension.js:524 extension.js:654 extension.js:675 extension.js:716
 #: extension.js:732
-msgid "Gnome Notes Panel"
+#, fuzzy
+msgid "GNOME Notes Panel"
 msgstr "Gnome Notes-Panel"
 
 #: extension.js:105

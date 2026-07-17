@@ -78,7 +78,7 @@ ORDER BY DESC(?modified)
 const NotesIndicator = GObject.registerClass(
 class NotesIndicator extends PanelMenu.Button {
     _init(extensionPath) {
-        super._init(0.0, _('Bijiben Panel'));
+        super._init(0.0, _('GNOME Notes Panel'));
 
         this._extensionPath = extensionPath;
 
@@ -185,7 +185,7 @@ class NotesIndicator extends PanelMenu.Button {
 
                 if (error) {
                     console.error(
-                        'Bijiben Panel: Could not create ' +
+                        'GNOME Notes Panel: Could not create ' +
                         `search-provider proxy: ${error}`
                     );
 
@@ -212,7 +212,7 @@ class NotesIndicator extends PanelMenu.Button {
 
         if (!executable) {
             console.error(
-                'Bijiben Panel: tinysparql was not found'
+                'GNOME Notes Panel: tinysparql was not found'
             );
 
             this._showStatus(
@@ -235,7 +235,7 @@ class NotesIndicator extends PanelMenu.Button {
             )
         ) {
             console.warn(
-                'Bijiben Panel: Tracker database directory ' +
+                'GNOME Notes Panel: Tracker database directory ' +
                 `does not exist yet: ${databasePath}`
             );
 
@@ -267,7 +267,7 @@ class NotesIndicator extends PanelMenu.Button {
             this._queryProcess = null;
 
             console.error(
-                'Bijiben Panel: Could not start ' +
+                'GNOME Notes Panel: Could not start ' +
                 `TinySPARQL: ${error}`
             );
 
@@ -323,7 +323,7 @@ class NotesIndicator extends PanelMenu.Button {
                     this._showNotes();
                 } catch (error) {
                     console.error(
-                        'Bijiben Panel: Could not parse ' +
+                        'GNOME Notes Panel: Could not parse ' +
                         `TinySPARQL output: ${error}`
                     );
 
@@ -356,12 +356,12 @@ class NotesIndicator extends PanelMenu.Button {
             )
         ) {
             console.error(
-                'Bijiben Panel: Rebuild script was not found: ' +
+                'GNOME Notes Panel: Rebuild script was not found: ' +
                 scriptPath
             );
 
             Main.notifyError(
-                _('Bijiben Panel'),
+                _('GNOME Notes Panel'),
                 _('The rebuild script could not be found')
             );
 
@@ -375,12 +375,12 @@ class NotesIndicator extends PanelMenu.Button {
             )
         ) {
             console.error(
-                'Bijiben Panel: Rebuild script is not executable: ' +
+                'GNOME Notes Panel: Rebuild script is not executable: ' +
                 scriptPath
             );
 
             Main.notifyError(
-                _('Bijiben Panel'),
+                _('GNOME Notes Panel'),
                 _('The rebuild script is not executable')
             );
 
@@ -408,7 +408,7 @@ class NotesIndicator extends PanelMenu.Button {
             this._reindexProcess = null;
 
             console.error(
-                'Bijiben Panel: Could not start rebuild script: ' +
+                'GNOME Notes Panel: Could not start rebuild script: ' +
                 error
             );
 
@@ -458,7 +458,7 @@ class NotesIndicator extends PanelMenu.Button {
                 }
 
                 Main.notify(
-                    _('Bijiben Panel'),
+                    _('GNOME Notes Panel'),
                     _('The notes index is being rebuilt')
                 );
 
@@ -513,7 +513,7 @@ class NotesIndicator extends PanelMenu.Button {
         this._reindexing = false;
 
         console.error(
-            `Bijiben Panel: ${message}`
+            `GNOME Notes Panel: ${message}`
         );
 
         this._showStatus(
@@ -521,7 +521,7 @@ class NotesIndicator extends PanelMenu.Button {
         );
 
         Main.notifyError(
-            _('Bijiben Panel'),
+            _('GNOME Notes Panel'),
             _('The notes index could not be rebuilt')
         );
     }
@@ -604,7 +604,7 @@ class NotesIndicator extends PanelMenu.Button {
             return decodeURIComponent(value);
         } catch (error) {
             console.warn(
-                'Bijiben Panel: Could not decode ' +
+                'GNOME Notes Panel: Could not decode ' +
                 `query value "${value}": ${error}`
             );
 
@@ -646,12 +646,12 @@ class NotesIndicator extends PanelMenu.Button {
     _activateNote(note) {
         if (!this._searchProviderProxy) {
             console.error(
-                'Bijiben Panel: Search-provider proxy ' +
+                'GNOME Notes Panel: Search-provider proxy ' +
                 'is not available'
             );
 
             Main.notifyError(
-                _('Bijiben Panel'),
+                _('GNOME Notes Panel'),
                 _('The note could not be opened')
             );
 
@@ -667,12 +667,12 @@ class NotesIndicator extends PanelMenu.Button {
                     return;
 
                 console.error(
-                    'Bijiben Panel: Could not open note ' +
+                    'GNOME Notes Panel: Could not open note ' +
                     `${note.url}: ${error}`
                 );
 
                 Main.notifyError(
-                    _('Bijiben Panel'),
+                    _('GNOME Notes Panel'),
                     _('The note could not be opened')
                 );
             }
@@ -684,7 +684,7 @@ class NotesIndicator extends PanelMenu.Button {
         this._loading = false;
 
         console.error(
-            `Bijiben Panel: ${message}`
+            `GNOME Notes Panel: ${message}`
         );
 
         this._showStatus(
@@ -713,7 +713,7 @@ class NotesIndicator extends PanelMenu.Button {
 
         if (!appInfo) {
             Main.notifyError(
-                _('Bijiben Panel'),
+                _('GNOME Notes Panel'),
                 _('GNOME Notes could not be found')
             );
 
@@ -724,12 +724,12 @@ class NotesIndicator extends PanelMenu.Button {
             appInfo.launch([], null);
         } catch (error) {
             console.error(
-                'Bijiben Panel: Could not launch ' +
+                'GNOME Notes Panel: Could not launch ' +
                 `GNOME Notes: ${error}`
             );
 
             Main.notifyError(
-                _('Bijiben Panel'),
+                _('GNOME Notes Panel'),
                 _('GNOME Notes could not be opened')
             );
         }
@@ -748,7 +748,7 @@ class NotesIndicator extends PanelMenu.Button {
                 this._queryProcess.force_exit();
             } catch (error) {
                 console.warn(
-                    'Bijiben Panel: Could not terminate ' +
+                    'GNOME Notes Panel: Could not terminate ' +
                     `TinySPARQL: ${error}`
                 );
             }
@@ -762,7 +762,7 @@ class NotesIndicator extends PanelMenu.Button {
                 this._reindexProcess.force_exit();
             } catch (error) {
                 console.warn(
-                    'Bijiben Panel: Could not terminate ' +
+                    'GNOME Notes Panel: Could not terminate ' +
                     `rebuild script: ${error}`
                 );
             }
