@@ -399,13 +399,9 @@ Do not remove the active `tracker3` directories unless you intentionally want GN
 
 ## License
 
-Add the selected license here.
+This project is licensed under the GNU General Public License v3.0 or later.
 
-For example:
-
-```text
-GPL-3.0-or-later
-```
+See the [LICENSE](LICENSE) file for details.
 
 ## Author
 
