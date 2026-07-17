@@ -209,6 +209,9 @@ Cloud notes cannot be validated through the local filesystem. When stale cloud r
 
 ```text
 gnome-notes-panel@nordcomputer/
+├── docs/
+│   ├── screenshot-menu.png
+│   └── screenshot-panel.png
 ├── extension.js
 ├── metadata.json
 ├── rebuild-index.sh
