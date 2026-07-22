@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-
+# SPDX-License-Identifier: GPL-3.0-or-later
+# Copyright (C) 2026 Mario Maresch
 set -euo pipefail
 
 timestamp="$(date +%Y%m%d-%H%M%S)"

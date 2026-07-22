@@ -4,7 +4,9 @@
     "description": "Access GNOME Notes from the top panel",
     "version": 1,
     "shell-version": [
-        "48"
+        "48",
+        "49",
+        "50"
     ],
     "gettext-domain": "gnome-notes-panel@nordcomputer"
 }
