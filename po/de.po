@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Gnome Notes Panel 1.0\n"
 "Report-Msgid-Bugs-To: notes-extension@nordcomputer.de\n"
-"POT-Creation-Date: 2026-07-17 15:50+0200\n"
+"POT-Creation-Date: 2026-07-22 13:06+0200\n"
 "PO-Revision-Date: 2026-07-17 15:25+0200\n"
 "Last-Translator: Mario Maresch\n"
 "Language-Team: German\n"
@@ -18,93 +18,90 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: extension.js:81 extension.js:364 extension.js:383 extension.js:461
-#: extension.js:524 extension.js:654 extension.js:675 extension.js:716
-#: extension.js:732
-#, fuzzy
+#: extension.js:90 extension.js:548 extension.js:567 extension.js:617
+#: extension.js:674 extension.js:709 extension.js:845 extension.js:866
+#: extension.js:907 extension.js:923
 msgid "GNOME Notes Panel"
 msgstr "Gnome Notes-Panel"
 
-#: extension.js:105
+#: extension.js:118
 msgid "My Notes"
 msgstr "Meine Notizen"
 
-#: extension.js:125
+#: extension.js:141
 msgid "Notes have not been loaded yet"
 msgstr "Die Notizen wurden noch nicht geladen"
 
-#: extension.js:134
-msgid "Refresh Notes"
-msgstr "Notizen aktualisieren"
-
-#: extension.js:146
+#: extension.js:150
 msgid "Rebuild Notes Index"
 msgstr "Notizindex neu aufbauen"
 
-#: extension.js:157
+#: extension.js:161
 msgid "Open Notes"
 msgstr "Notizen öffnen"
 
-#: extension.js:219
+#: extension.js:401
 msgid "TinySPARQL could not be found"
 msgstr "TinySPARQL wurde nicht gefunden"
 
-#: extension.js:243
+#: extension.js:422
 msgid "The notes index is not ready yet"
 msgstr "Der Notizindex ist noch nicht bereit"
 
-#: extension.js:250
+#: extension.js:429
 msgid "Loading notes…"
 msgstr "Notizen werden geladen…"
 
-#: extension.js:275 extension.js:691
+#: extension.js:454 extension.js:882
 msgid "Notes could not be loaded"
 msgstr "Die Notizen konnten nicht geladen werden"
 
-#: extension.js:331
+#: extension.js:513
 msgid "The notes database returned invalid data"
 msgstr "Die Notizdatenbank hat ungültige Daten zurückgegeben"
 
-#: extension.js:365
-msgid "The rebuild script could not be found"
+#: extension.js:550
+msgid "The index rebuild helper could not be found"
 msgstr "Das Skript zum Neuaufbau wurde nicht gefunden"
 
-#: extension.js:384
-msgid "The rebuild script is not executable"
-msgstr "Das Skript zum Neuaufbau ist nicht ausführbar"
+#: extension.js:568
+msgid "GJS could not be found"
+msgstr "TinySPARQL wurde nicht gefunden"
 
-#: extension.js:397
+#: extension.js:585
 msgid "Rebuilding notes index…"
 msgstr "Notizindex wird neu aufgebaut…"
 
-#: extension.js:416 extension.js:520 extension.js:525
+#: extension.js:611 extension.js:619 extension.js:705 extension.js:710
 msgid "The notes index could not be rebuilt"
 msgstr "Der Notizindex konnte nicht neu aufgebaut werden"
 
-#: extension.js:462
-msgid "The notes index is being rebuilt"
+#: extension.js:675
+msgid "The notes index has been rebuilt"
 msgstr "Der Notizindex wird neu aufgebaut"
 
-#: extension.js:466
-msgid "Waiting for the notes index…"
-msgstr "Warte auf den Notizindex…"
-
-#: extension.js:589
+#: extension.js:778
 msgid "Untitled Note"
 msgstr "Unbenannte Notiz"
 
-#: extension.js:630
+#: extension.js:819
 msgid "No notes found"
 msgstr "Keine Notizen gefunden"
 
-#: extension.js:655 extension.js:676
+#: extension.js:846 extension.js:867
 msgid "The note could not be opened"
 msgstr "Die Notiz konnte nicht geöffnet werden"
 
-#: extension.js:717
+#: extension.js:908
 msgid "GNOME Notes could not be found"
 msgstr "GNOME Notizen wurde nicht gefunden"
 
-#: extension.js:733
+#: extension.js:924
 msgid "GNOME Notes could not be opened"
 msgstr "GNOME Notizen konnte nicht geöffnet werden"
+
+#~ msgid "Refresh Notes"
+#~ msgstr "Notizen aktualisieren"
+
+#~ msgid "Waiting for the notes index…"
+#~ msgstr "Warte auf den Notizindex…"
