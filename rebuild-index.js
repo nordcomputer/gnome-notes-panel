@@ -59,21 +59,30 @@ function runCommand(argv, ignoreFailure = false) {
 }
 
 function moveTrackerDatabase(timestamp) {
-    const tracker4 = GLib.build_filenamev([
-        GLib.get_user_data_dir(),
-        'bijiben',
-        'tracker4',
-    ]);
+    const candidates = [
+        GLib.build_filenamev([
+            GLib.get_user_data_dir(),
+            'bijiben',
+            'tracker4',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'org.gnome.Notes',
+            'tracker3',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'bijiben',
+            'tracker3',
+        ]),
+    ];
 
-    const tracker3 = GLib.build_filenamev([
-        GLib.get_user_cache_dir(),
-        'bijiben',
-        'tracker3',
-    ]);
+    const sourcePath = candidates.find(
+        path => GLib.file_test(path, GLib.FileTest.IS_DIR)
+    );
 
-    const sourcePath = GLib.file_test(tracker4, GLib.FileTest.IS_DIR)
-        ? tracker4
-        : tracker3;
+    if (!sourcePath)
+        return;
 
     const parentDir = GLib.path_get_dirname(sourcePath);
     const destinationPath = GLib.build_filenamev([
@@ -82,9 +91,6 @@ function moveTrackerDatabase(timestamp) {
     ]);
 
     const source = Gio.File.new_for_path(sourcePath);
-
-    if (!source.query_exists(null))
-        return;
 
     source.move(
         Gio.File.new_for_path(destinationPath),
@@ -134,6 +140,10 @@ function findTrackerBackups() {
         GLib.build_filenamev([
             GLib.get_user_data_dir(),
             'bijiben',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'org.gnome.Notes',
         ]),
         GLib.build_filenamev([
             GLib.get_user_cache_dir(),
@@ -293,19 +303,27 @@ async function waitForNotesIndex() {
         );
     }
 
-    const tracker4Path = GLib.build_filenamev([
-        GLib.get_user_data_dir(),
-        'bijiben',
-        'tracker4',
-    ]);
+    const candidates = [
+        GLib.build_filenamev([
+            GLib.get_user_data_dir(),
+            'bijiben',
+            'tracker4',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'org.gnome.Notes',
+            'tracker3',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'bijiben',
+            'tracker3',
+        ]),
+    ];
 
-    const databasePath = GLib.file_test(tracker4Path, GLib.FileTest.IS_DIR)
-        ? tracker4Path
-        : GLib.build_filenamev([
-              GLib.get_user_cache_dir(),
-              'bijiben',
-              'tracker3',
-          ]);
+    const databasePath = candidates.find(
+        path => GLib.file_test(path, GLib.FileTest.IS_DIR)
+    ) ?? candidates[1];
 
     const databaseDirectory =
         Gio.File.new_for_path(databasePath);
@@ -357,22 +375,29 @@ async function waitForNotesIndex() {
 async function main() {
     const timestamp = formatTimestamp();
 
-    const bijibenDir = GLib.file_test(
+    const candidates = [
         GLib.build_filenamev([
             GLib.get_user_data_dir(),
             'bijiben',
             'tracker4',
         ]),
-        GLib.FileTest.IS_DIR
-    )
-        ? GLib.build_filenamev([
-              GLib.get_user_data_dir(),
-              'bijiben',
-          ])
-        : GLib.build_filenamev([
-              GLib.get_user_cache_dir(),
-              'bijiben',
-          ]);
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'org.gnome.Notes',
+            'tracker3',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'bijiben',
+            'tracker3',
+        ]),
+    ];
+
+    const bijibenDir = GLib.path_get_dirname(
+        candidates.find(
+            path => GLib.file_test(path, GLib.FileTest.IS_DIR)
+        ) ?? candidates[1]
+    );
 
     /*
      * pkill returns a non-zero status if no matching process exists.
