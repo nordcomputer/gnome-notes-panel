@@ -60,31 +60,3 @@ echo "===== 9. GNOME Notes beenden ====="
 pkill -x bijiben 2>/dev/null
 pkill -f bijiben-shell-search-provider 2>/dev/null
 echo "fertig teil 1"
-
-echo "Weitere Diagnose:"
-echo "=== Flatpak-Liste ==="
-flatpak list 2>/dev/null | grep -iE 'notes|bijiben'
-
-echo ""
-echo "=== ~/.var/app/org.gnome.Notes (vollständig) ==="
-find ~/.var/app/org.gnome.Notes -maxdepth 6 2>/dev/null | head -120
-
-echo ""
-echo "=== SQLite-Dateien im Flatpak-Pfad ==="
-find ~/.var/app/org.gnome.Notes \
-  \( -name '*.sqlite*' -o -name '*.db' \) 2>/dev/null
-
-echo ""
-echo "=== tinysparql-Abfrage auf Flatpak-DB ==="
-for DB in \
-  "$HOME/.var/app/org.gnome.Notes/data/bijiben/tracker4" \
-  "$HOME/.var/app/org.gnome.Notes/data/bijiben/tracker3" \
-  "$HOME/.var/app/org.gnome.Notes/cache/bijiben/tracker3" \
-  "$HOME/.var/app/org.gnome.Notes/cache/bijiben/tracker4"; do
-  if [ -d "$DB" ]; then
-    echo "--- Pfad: $DB ---"
-    tinysparql query --database "$DB" \
-      --query "SELECT (COUNT(?n) AS ?c) WHERE { ?n a <http://tracker.api.gnome.org/ontology/v3/nfo#Note> }" \
-      2>&1
-  fi
-done
