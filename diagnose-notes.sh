@@ -28,7 +28,7 @@ ps aux | grep -iE 'bijiben|tracker' | grep -v grep
 echo ""
 
 echo "===== 7. GNOME Notes starten, 10 s warten, prüfen ====="
-org.gnome.Notes &
+bijiben &
 sleep 10
 echo "--- Prozesse ---"
 ps aux | grep -iE 'bijiben|tracker' | grep -v grep
