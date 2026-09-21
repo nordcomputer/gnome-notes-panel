@@ -58,27 +58,42 @@ function runCommand(argv, ignoreFailure = false) {
     }
 }
 
-function moveTrackerDatabase(cacheDirectory, timestamp) {
-    const sourcePath = GLib.build_filenamev([
-        cacheDirectory,
-        'tracker3',
-    ]);
+function moveTrackerDatabase(timestamp) {
+    const candidates = [
+        GLib.build_filenamev([
+            GLib.get_user_data_dir(),
+            'bijiben',
+            'tracker4',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'org.gnome.Notes',
+            'tracker3',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'bijiben',
+            'tracker3',
+        ]),
+    ];
 
+    const sourcePath = candidates.find(
+        path => GLib.file_test(path, GLib.FileTest.IS_DIR)
+    );
+
+    if (!sourcePath)
+        return;
+
+    const parentDir = GLib.path_get_dirname(sourcePath);
     const destinationPath = GLib.build_filenamev([
-        cacheDirectory,
-        `tracker3.backup-${timestamp}`,
+        parentDir,
+        `tracker-backup-${timestamp}`,
     ]);
 
     const source = Gio.File.new_for_path(sourcePath);
 
-    if (!source.query_exists(null))
-        return;
-
-    const destination =
-        Gio.File.new_for_path(destinationPath);
-
     source.move(
-        destination,
+        Gio.File.new_for_path(destinationPath),
         Gio.FileCopyFlags.NONE,
         null,
         null
@@ -120,70 +135,67 @@ function deleteRecursively(file) {
     file.delete(null);
 }
 
-function findTrackerBackups(cacheDirectory) {
-    const directory =
-        Gio.File.new_for_path(cacheDirectory);
+function findTrackerBackups() {
+    const candidates = [
+        GLib.build_filenamev([
+            GLib.get_user_data_dir(),
+            'bijiben',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'org.gnome.Notes',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'bijiben',
+        ]),
+    ];
 
-    if (!directory.query_exists(null))
-        return [];
+    for (const dirPath of candidates) {
+        const directory = Gio.File.new_for_path(dirPath);
 
-    const backups = [];
+        if (!directory.query_exists(null))
+            continue;
 
-    const enumerator = directory.enumerate_children(
-        [
-            'standard::name',
-            'standard::type',
-            'time::modified',
-        ].join(','),
-        Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
-        null
-    );
+        const backups = [];
+        const enumerator = directory.enumerate_children(
+            'standard::name,standard::type',
+            Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS,
+            null
+        );
 
-    try {
+        if (!enumerator)
+            continue;
+
         let info;
-
-        while (
-            (info = enumerator.next_file(null)) !== null
-        ) {
-            const name = info.get_name();
-
-            if (
-                info.get_file_type() !==
-                    Gio.FileType.DIRECTORY ||
-                !name.startsWith('tracker3.backup-')
-            ) {
-                continue;
+        while ((info = enumerator.next_file(null))) {
+            const name = info.get_attribute_string('standard::name');
+            if (name.startsWith('tracker-backup-')) {
+                backups.push({
+                    file: directory.get_child(name),
+                    modified: info.get_attribute_uint64('time::modified'),
+                });
             }
-
-            backups.push({
-                file: directory.get_child(name),
-                modified:
-                    info.get_attribute_uint64(
-                        'time::modified'
-                    ),
-            });
         }
-    } finally {
         enumerator.close(null);
+
+        if (backups.length > 0) {
+            backups.sort(
+                (left, right) => right.modified - left.modified
+            );
+            return backups;
+        }
     }
 
-    backups.sort(
-        (left, right) =>
-            right.modified - left.modified
-    );
-
-    return backups;
+    return [];
 }
 
-function removeOldBackups(cacheDirectory) {
-    const backups =
-        findTrackerBackups(cacheDirectory);
+function removeOldBackups() {
+    const backups = findTrackerBackups();
 
     for (const backup of backups.slice(MAX_BACKUPS)) {
         const path = backup.file.get_path();
-
         deleteRecursively(backup.file);
-
         console.log(
             `GNOME Notes Panel: Removed old backup ${path}`
         );
@@ -291,11 +303,27 @@ async function waitForNotesIndex() {
         );
     }
 
-    const databasePath = GLib.build_filenamev([
-        GLib.get_user_cache_dir(),
-        'bijiben',
-        'tracker3',
-    ]);
+    const candidates = [
+        GLib.build_filenamev([
+            GLib.get_user_data_dir(),
+            'bijiben',
+            'tracker4',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'org.gnome.Notes',
+            'tracker3',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'bijiben',
+            'tracker3',
+        ]),
+    ];
+
+    const databasePath = candidates.find(
+        path => GLib.file_test(path, GLib.FileTest.IS_DIR)
+    ) ?? candidates[1];
 
     const databaseDirectory =
         Gio.File.new_for_path(databasePath);
@@ -347,16 +375,29 @@ async function waitForNotesIndex() {
 async function main() {
     const timestamp = formatTimestamp();
 
-    const bijibenCache = GLib.build_filenamev([
-        GLib.get_user_cache_dir(),
-        'bijiben',
-    ]);
-
-    const searchProviderCache =
+    const candidates = [
+        GLib.build_filenamev([
+            GLib.get_user_data_dir(),
+            'bijiben',
+            'tracker4',
+        ]),
         GLib.build_filenamev([
             GLib.get_user_cache_dir(),
-            'bijiben-shell-search-provider',
-        ]);
+            'org.gnome.Notes',
+            'tracker3',
+        ]),
+        GLib.build_filenamev([
+            GLib.get_user_cache_dir(),
+            'bijiben',
+            'tracker3',
+        ]),
+    ];
+
+    const bijibenDir = GLib.path_get_dirname(
+        candidates.find(
+            path => GLib.file_test(path, GLib.FileTest.IS_DIR)
+        ) ?? candidates[1]
+    );
 
     /*
      * pkill returns a non-zero status if no matching process exists.
@@ -380,18 +421,9 @@ async function main() {
         true
     );
 
-    moveTrackerDatabase(
-        bijibenCache,
-        timestamp
-    );
+    moveTrackerDatabase(timestamp);
 
-    moveTrackerDatabase(
-        searchProviderCache,
-        timestamp
-    );
-
-    removeOldBackups(bijibenCache);
-    removeOldBackups(searchProviderCache);
+    removeOldBackups();
 
     launchNotes();
 
