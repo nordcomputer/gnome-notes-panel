@@ -6,7 +6,8 @@
     "shell-version": [
         "48",
         "49",
-        "50"
+        "50",
+        "51"
     ],
     "gettext-domain": "gnome-notes-panel@nordcomputer"
 }
